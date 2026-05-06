@@ -6,7 +6,7 @@
 
 ## Overview
 
-Three workstreams of server-side changes are needed before the Mosaic plugin can be listed on the Anthropic plugin marketplace. They are ordered by implementation risk:
+Three workstreams of server-side changes are needed before the Mosaic Connect plugin can be listed on the Anthropic plugin marketplace. They are ordered by implementation risk:
 
 1. **Workstream B — Tool schemas (rename + rewrites).** Highest impact, lowest risk. An LLM agent reading the current tool descriptions will fail to sequence calls correctly and will generate malformed SQL. **Land this first.**
 2. **Workstream C — Error model.** Medium effort. Errors today are inconsistent (sometimes in MCP error field, sometimes in success output), leak internal SQL, and have no machine-readable codes.

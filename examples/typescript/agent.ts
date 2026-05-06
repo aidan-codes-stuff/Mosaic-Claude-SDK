@@ -1,5 +1,5 @@
 /**
- * Mosaic + Claude — minimal example agent (TypeScript)
+ * Mosaic Connect + Claude — minimal example agent (TypeScript)
  *
  * Demo questions to try once the agent is running:
  *   - "What projects do I have access to?"

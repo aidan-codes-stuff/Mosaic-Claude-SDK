@@ -1,11 +1,16 @@
-# Mosaic plugin — auth flow
+# Mosaic Connect plugin — auth flow
 
 > Audience: Anthropic plugin marketplace reviewers. This doc walks the auth
 > mechanism end-to-end and lists what to test before publishing.
+>
+> Note: "Mosaic Connect" is the Claude Agent SDK plugin (the connector). "Mosaic"
+> is the underlying Strategy product that holds the data and issues the tokens.
+> Sessions and tokens belong to Mosaic; install/uninstall/reconnect actions
+> belong to Mosaic Connect.
 
 ## 1. Auth mechanism — named-user OAuth 2.0 redirect
 
-When a user installs the Mosaic plugin and calls any Mosaic tool for the first
+When a user installs the Mosaic Connect plugin and calls any Mosaic tool for the first
 time, the MCP server returns a **redirect URL** pointing to the user's Strategy
 environment login page:
 
