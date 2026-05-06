@@ -19,38 +19,19 @@ You **must** follow this order. Skipping a step will produce wrong answers or ma
 
 1. **`get_projects`** — find which project the user's question relates to. If the user mentions a business area (e.g., "customer churn", "inventory", "marketing campaigns"), map it to a project name returned here.
 2. **`get_mosaic_models(project=...)`** — list the models (logical tables) inside that project. Pick the most relevant model. If multiple models could plausibly answer the question, ask the user.
-3. **`get_semantics(project=..., model=...)`** — read the full semantic definition of the chosen model **before writing any SQL**. This is non-negotiable. The column names follow a non-guessable convention (see Section 3) and the model's metric definitions are how you avoid re-deriving validated logic.
-4. **`query(project=..., query=...)`** — write and execute read-only Trino SQL using the column names you saw in `get_semantics`.
+3. **`get_semantics(project=..., model=...)`** — read the full semantic definition of the chosen model **before writing any SQL**. This is non-negotiable. Column names follow a non-guessable convention (see Section 3) and metric definitions are how you avoid re-deriving validated logic.
+4. **`query(project=..., query=...)`** — before writing SQL, load the **`mosaic-query-patterns`** skill. It contains the metric class rules, fan-out patterns, known bugs, and safe SQL templates you need to produce correct results. Then write and execute read-only Trino SQL using the column names you saw in `get_semantics`.
 
 If the user's question is broad ("what data do I have?"), stop after step 1 or 2 and summarize, rather than guessing a query.
 
 ## 3. Column naming rules — CRITICAL
 
-These rules are not guessable. Read this section every time before writing SQL.
+These are the core rules. Full detail, safe patterns, and known failure modes live in `mosaic-query-patterns`.
 
-- **Attribute columns** appear as `<form>__<name>` — two underscores between the form name and the attribute name. Example: `customer name__customer name`, `campaign__campaign id`, `product__sku`.
-- **Always wrap column and table names in double quotes** in SQL. Backticks are **not** supported by the Trino backend.
-- **Date and timestamp attributes** expose a base column **plus** four pre-bucketed interval pseudo-columns: `(day interval)`, `(month interval)`, `(quarter interval)`, `(year interval)`. **Use the interval columns for time-grouped aggregations** — do not compute `date_trunc(...)` manually. The interval columns are what the metrics are defined against.
-- **Always include `LIMIT N`** (typically 100 or fewer). Mosaic models can be very wide.
-- **Never `SELECT *`** — be explicit about every column.
-
-Example of a correct query:
-
-```sql
-SELECT "customer name__customer name", "churn risk score"
-FROM "customer health"
-LIMIT 20
-```
-
-Example of a correct time-grouped query:
-
-```sql
-SELECT "order date (month interval)", SUM("net revenue") AS revenue
-FROM "sales orders"
-GROUP BY "order date (month interval)"
-ORDER BY "order date (month interval)"
-LIMIT 24
-```
+- **Attribute columns** follow the form `<form>__<name>` — two underscores between form and attribute name. Example: `customer name__customer name`, `campaign__campaign id`, `product__sku`. Bare attribute names without the form prefix will fail.
+- **Always wrap column and table names in double quotes.** Backticks are **not** supported by the Trino backend.
+- **Date attributes may expose pre-bucketed `(day interval)` / `(month interval)` / `(quarter interval)` / `(year interval)` pseudo-columns.** When a model exposes them (check `get_semantics`), prefer those for time-grouped aggregations — they encode the model's calendar config. When they're absent, fall back to the `DATE_TRUNC` patterns in `mosaic-query-patterns` (and probe for week-start config as that skill describes).
+- **Never `SELECT *`** — be explicit about every column. **Always include `LIMIT N`** (typically 100 or fewer).
 
 ## 4. Metric vs. attribute disambiguation
 

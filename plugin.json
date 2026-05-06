@@ -19,7 +19,7 @@
     }
   ],
 
-  "skills": ["SKILL.md"],
+  "skills": ["SKILL.md", "mosaic-query-patterns.skill.md"],
 
   "config_schema": {
     "type": "object",
