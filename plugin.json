@@ -1,0 +1,34 @@
+{
+  "_comment": "TODO: confirm manifest schema with Anthropic marketplace review. Modeled on the Claude Agent SDK plugin manifest spec; field names may need adjustment when the marketplace publishes a frozen schema.",
+
+  "name": "mosaic",
+  "display_name": "Mosaic by Strategy",
+  "description": "Mosaic is Strategy Software's governed semantic layer. This plugin connects Claude agents to your Mosaic environment so they can query governed business metrics across all your data sources (Snowflake, Databricks, SAP, Postgres, and more) using read-only Trino SQL backed by validated business logic.",
+  "version": "1.0.0",
+  "permissions": ["read"],
+
+  "mcp_servers": [
+    {
+      "name": "mosaic",
+      "transport": "http",
+      "url": "${MOSAIC_MCP_URL}",
+      "auth": {
+        "type": "oauth2_redirect",
+        "_comment": "First tool call returns a redirect URL pointing at https://${environment_url}/login. After login, a 30-day token is issued and stored by the SDK credential store. See docs/auth-flow.md."
+      }
+    }
+  ],
+
+  "skills": ["SKILL.md"],
+
+  "config_schema": {
+    "type": "object",
+    "required": ["environment_url"],
+    "properties": {
+      "environment_url": {
+        "type": "string",
+        "description": "Your Strategy environment URL, e.g. https://your-company.strategy.com. Determines the OAuth redirect target and token audience for multi-environment customers (dev/staging/prod)."
+      }
+    }
+  }
+}
