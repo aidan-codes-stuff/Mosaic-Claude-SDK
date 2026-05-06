@@ -1,6 +1,6 @@
-# Mosaic + Claude — Python example
+# Mosaic Connect + Claude — Python example
 
-A minimal interactive agent that connects Claude to your Mosaic environment via the Mosaic MCP server.
+A minimal interactive agent that connects Claude to your Mosaic environment via the Mosaic Connect plugin (and the Mosaic MCP server it points at).
 
 ## Prerequisites
 
@@ -47,4 +47,4 @@ The model defaults to `claude-sonnet-4-6`. To change it, edit `MODEL` in `agent.
 
 - **"MOSAIC_MCP_URL is not set"** — Check that `.env` exists at the repo root and the var is spelled correctly.
 - **"Your Mosaic session has expired"** — Tokens last 30 days. Reconnect via the plugin settings (or, for this example, just re-run; the redirect will fire again).
-- **Empty / odd responses** — The agent depends on the SKILL.md guidance to sequence calls. If you're seeing weird behavior, confirm your plugin install picked up `SKILL.md` from the repo root.
+- **Empty / odd responses** — The agent depends on the skills under `skills/` to sequence calls. If you're seeing weird behavior, confirm your plugin install picked up both `skills/mosaic/SKILL.md` and `skills/mosaic-query-patterns/SKILL.md`.

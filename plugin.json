@@ -1,9 +1,9 @@
 {
   "_comment": "TODO: confirm manifest schema with Anthropic marketplace review. Modeled on the Claude Agent SDK plugin manifest spec; field names may need adjustment when the marketplace publishes a frozen schema.",
 
-  "name": "mosaic",
-  "display_name": "Mosaic by Strategy",
-  "description": "Mosaic is Strategy Software's governed semantic layer. This plugin connects Claude agents to your Mosaic environment so they can query governed business metrics across all your data sources (Snowflake, Databricks, SAP, Postgres, and more) using read-only Trino SQL backed by validated business logic.",
+  "name": "mosaic-connect",
+  "display_name": "Mosaic Connect by Strategy",
+  "description": "Mosaic Connect is the Claude Agent SDK plugin that connects Claude agents to your Mosaic environment — Strategy Software's governed semantic layer — so they can query governed business metrics across all your data sources (Snowflake, Databricks, SAP, Postgres, and more) using read-only Trino SQL backed by validated business logic.",
   "version": "1.0.0",
   "permissions": ["read"],
 
@@ -19,7 +19,7 @@
     }
   ],
 
-  "skills": ["SKILL.md"],
+  "skills": ["skills/mosaic/SKILL.md", "skills/mosaic-query-patterns/SKILL.md"],
 
   "config_schema": {
     "type": "object",

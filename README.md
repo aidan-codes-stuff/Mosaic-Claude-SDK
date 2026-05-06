@@ -1,12 +1,12 @@
-# Mosaic Claude SDK plugin
+# Mosaic Connect Claude SDK plugin
 
-A Claude Agent SDK plugin that connects Claude agents to **Mosaic** — Strategy Software's governed semantic layer — so they can answer business-data questions against your Mosaic environment using read-only Trino SQL backed by validated metrics.
+**Mosaic Connect** is the Claude Agent SDK plugin that connects Claude agents to **Mosaic** — Strategy Software's governed semantic layer — so they can answer business-data questions against your Mosaic environment using read-only Trino SQL backed by validated metrics. You install Mosaic Connect; Mosaic itself is the backend it talks to.
 
 ## What this plugin does
 
-The Mosaic MCP server already runs in production inside Strategy's Cowork product. This repo packages it as an installable Claude Agent SDK plugin: a manifest (`plugin.json`), a `SKILL.md` that teaches agents how to reason about Mosaic and sequence the four tools (`get_projects` → `get_mosaic_models` → `get_semantics` → `query`), working example agents in Python and TypeScript, and an integration-test harness that hits the live server.
+The Mosaic MCP server already runs in production inside Strategy's Cowork product. This repo packages Mosaic Connect: a manifest (`plugin.json`), two skills under `skills/` that teach agents how to reason about Mosaic and how to write correct queries against the four tools (`get_projects` → `get_mosaic_models` → `get_semantics` → `query`), working example agents in Python and TypeScript, and an integration-test harness that hits the live server.
 
-**Goal:** a third-party developer runs `claude plugin install mosaic`, authenticates against their Strategy environment, and has an agent that can answer governed data questions within minutes.
+**Goal:** a third-party developer runs `claude plugin install mosaic-connect`, authenticates against their Strategy environment, and has an agent that can answer governed data questions within minutes.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ The Mosaic MCP server already runs in production inside Strategy's Cowork produc
 ## Installation
 
 ```bash
-claude plugin install mosaic
+claude plugin install mosaic-connect
 ```
 
 When prompted for `environment_url`, enter your Strategy environment URL (e.g. `https://your-company.strategy.com`). The first tool call will redirect you to that environment's login page; after login, a 30-day token is stored by the SDK and reused on every subsequent call. Full auth walkthrough: [`docs/auth-flow.md`](docs/auth-flow.md).

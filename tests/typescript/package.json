@@ -1,5 +1,5 @@
 {
-  "name": "mosaic-claude-sdk-tests-ts",
+  "name": "mosaic-connect-claude-sdk-tests-ts",
   "version": "1.0.0",
   "description": "Mosaic MCP server integration tests (TypeScript)",
   "private": true,

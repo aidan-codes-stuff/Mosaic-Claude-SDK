@@ -1,7 +1,7 @@
 {
-  "name": "mosaic-claude-sdk-example-ts",
+  "name": "mosaic-connect-claude-sdk-example-ts",
   "version": "1.0.0",
-  "description": "Mosaic + Claude minimal example agent (TypeScript)",
+  "description": "Mosaic Connect + Claude minimal example agent (TypeScript)",
   "private": true,
   "type": "module",
   "scripts": {
