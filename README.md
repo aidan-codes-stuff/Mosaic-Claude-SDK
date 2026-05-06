@@ -4,7 +4,7 @@
 
 ## What this plugin does
 
-The Mosaic MCP server already runs in production inside Strategy's Cowork product. This repo packages Mosaic Connect: a manifest (`plugin.json`), two skills under `skills/` that teach agents how to reason about Mosaic and how to write correct queries against the four tools (`get_projects` → `get_mosaic_models` → `get_semantics` → `query`), working example agents in Python and TypeScript, and an integration-test harness that hits the live server.
+Mosaic MCP runs inside your Strategy environment. Strategy provides documentation on how to enable the MCP server in your env and how to point a client at it; this repo is the client side. Mosaic Connect packages the Claude-side glue — a manifest (`plugin.json`), two skills under `skills/` that teach agents how to reason about Mosaic and how to write correct queries against the four tools (`get_projects` → `get_mosaic_models` → `get_semantics` → `query`), working example agents in Python and TypeScript, and an integration-test harness that hits the live server.
 
 **Goal:** a third-party developer runs `claude plugin install mosaic-connect`, authenticates against their Strategy environment, and has an agent that can answer governed data questions within minutes.
 

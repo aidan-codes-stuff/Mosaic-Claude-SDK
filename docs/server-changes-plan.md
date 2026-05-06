@@ -1,6 +1,6 @@
 # Mosaic MCP Server — Changes Required for External Plugin Publishing
 
-**Status:** Pending eng implementation. Companion to https://github.com/aidan-codes-stuff/Mosaic-Claude-SDK.
+**Status:** Pending eng implementation. Workstream B is tracked in JIRA `<TBD — fill in ticket ID>`. Companion to https://github.com/aidan-codes-stuff/Mosaic-Connect-Claude-SDK.
 
 **Audience:** Mosaic MCP server engineering team.
 
@@ -20,7 +20,7 @@ This repo (the SDK plugin) ships independently of these server changes. The inte
 
 | # | Item | Type | Notes |
 |---|---|---|---|
-| A1 | Verify first-connect redirect from vanilla Claude Agent SDK (non-Cowork) | Verification | Stand up a clean Claude Agent SDK env, install the plugin, walk the redirect. Capture user-visible behavior at each step. |
+| A1 | Verify first-connect redirect from a vanilla Claude Agent SDK install against a customer Strategy environment | Verification | Stand up a clean Claude Agent SDK env, install the plugin pointed at a customer's MCP-enabled Strategy environment, walk the redirect. Capture user-visible behavior at each step. |
 | A2 | 30-day token expiry → surfaces as `MOSAIC_AUTH_INVALID` | Spec + small code | At day 31, the next tool call must return the MCP error field with code `MOSAIC_AUTH_INVALID`, message "Your Mosaic session has expired. Reconnect via plugin settings.", and a `recovery_hint`. Must NOT be a silent failure or a mid-session redirect — expiry must be visible to the user. |
 | A3 | `environment_url` in plugin config | Small code | The plugin manifest (this repo's `plugin.json`) declares an `environment_url` config field. The server's redirect target and token audience must use this value. |
 | A4 | Read-only enforcement on `query` (AST-level) | Small code | Add a pre-execution check: reject any statement whose root is not `SELECT` / `WITH` / `EXPLAIN` / `SHOW` / `DESCRIBE`. Return `MOSAIC_SQL_WRITE_REJECTED` (see Workstream C error taxonomy). Makes read-only a tool-shape contract visible to the agent, not a hidden RBAC behavior. |
@@ -65,7 +65,7 @@ Apply the same pattern to `get_semantics` (also aliasing `table` → `model`) an
 
 ### Removal timeline
 
-Keep deprecated aliases for **at least one release after Cowork's internal prompts are updated**. Add telemetry on `schema=` call counts to know when removal is safe — the alias should not be removed while any caller is still using it.
+Keep deprecated aliases for **at least one release after this plugin ships externally**. Add telemetry on `schema=` / `table=` call counts and remove the aliases once telemetry confirms no callers remain. (Internal Strategy callers, if any are added later, should adopt `project=` / `model=` from day one — the aliases exist only to avoid breaking any pre-rename clients in flight.)
 
 ---
 
@@ -153,6 +153,6 @@ Both bugs have regression tests in this repo:
 
 ### After Workstream A lands
 
-- [ ] Non-Cowork Claude Agent SDK install → redirect works end-to-end
+- [ ] Vanilla Claude Agent SDK install (any customer Strategy environment) → redirect works end-to-end
 - [ ] Token expiry → `MOSAIC_AUTH_INVALID` with reconnect message
 - [ ] `environment_url` config field routes to the correct Strategy environment
